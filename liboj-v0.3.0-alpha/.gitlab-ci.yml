@@ -1,0 +1,29 @@
+stages:
+- test
+- deploy
+
+before_script:
+- apt-get update
+- apt-get install -y
+  libseccomp-dev
+  llvm-dev
+  libclang-dev
+  clang
+  gcc
+  g++
+
+variables:
+  RUST_BACKTRACE: 1
+
+stable:
+  stage: test
+  image: rust:latest
+  script:
+  - cargo test --verbose
+
+nightly:
+  stage: test
+  image: rustlang/rust:nightly
+  script:
+  - cargo test
+  allow_failure: true
